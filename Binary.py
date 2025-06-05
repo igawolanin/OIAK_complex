@@ -1,47 +1,45 @@
-class BinaryNumber:
+class BinaryComplexNumber:
     """
-    Klasa reprezentująca nieujemną liczbę binarną jako string.
-    Operacje +, -, * realizowane są na poziomie stringów
-    przy użyciu funkcji add_binary, subtract_binary, multiply_binary.
+    Klasa reprezentująca liczbę zespoloną w postaci binarnej.
+    Zarówno część rzeczywista, jak i urojona są binarnymi stringami.
     """
 
-    def __init__(self, value: str):
-        """
-        Args:
-            value: binarny string, np. "1011". 
-                   Wiodące zera są automatycznie usuwane.
-        """
-        # zachowaj '0' gdy całość to zera
-        self.value = value.lstrip('0') or '0'
+    def __init__(self, real: str, imag: str = '0'):
+        self.real = real.lstrip('0') or '0'
+        self.imag = imag.lstrip('0') or '0'
 
-    def __repr__(self) -> str:
-        return f"BinaryNumber('{self.value}')"
+    def __repr__(self):
+        return f"BinaryComplexNumber(real='{self.real}', imag='{self.imag}')"
 
-    def __str__(self) -> str:
-        return self.value
+    def __str__(self):
+        return f"{self.real} + {self.imag}j"
 
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, BinaryNumber):
+    def __eq__(self, other):
+        if not isinstance(other, BinaryComplexNumber):
             return NotImplemented
-        return self.value == other.value
+        return self.real == other.real and self.imag == other.imag
 
-    def __add__(self, other: 'BinaryNumber') -> 'BinaryNumber':
-        if not isinstance(other, BinaryNumber):
-            return NotImplemented
-        result = add_binary(self.value, other.value)
-        return BinaryNumber(result)
+    def __add__(self, other: 'BinaryComplexNumber') -> 'BinaryComplexNumber':
+        real_part = add_binary(self.real, other.real)
+        imag_part = add_binary(self.imag, other.imag)
+        return BinaryComplexNumber(real_part, imag_part)
 
-    def __sub__(self, other: 'BinaryNumber') -> 'BinaryNumber':
-        if not isinstance(other, BinaryNumber):
-            return NotImplemented
-        result = subtract_binary(self.value, other.value)
-        return BinaryNumber(result)
+    def __sub__(self, other: 'BinaryComplexNumber') -> 'BinaryComplexNumber':
+        real_part = subtract_binary(self.real, other.real)
+        imag_part = subtract_binary(self.imag, other.imag)
+        return BinaryComplexNumber(real_part, imag_part)
 
-    def __mul__(self, other: 'BinaryNumber') -> 'BinaryNumber':
-        if not isinstance(other, BinaryNumber):
-            return NotImplemented
-        result = multiply_binary(self.value, other.value)
-        return BinaryNumber(result)
+    def __mul__(self, other: 'BinaryComplexNumber') -> 'BinaryComplexNumber':
+        # (a + bi)(c + di) = (ac - bd) + (ad + bc)i
+        ac = multiply_binary(self.real, other.real)
+        bd = multiply_binary(self.imag, other.imag)
+        ad = multiply_binary(self.real, other.imag)
+        bc = multiply_binary(self.imag, other.real)
+
+        real_part = subtract_binary(ac, bd)
+        imag_part = add_binary(ad, bc)
+        return BinaryComplexNumber(real_part, imag_part)
+
 
 def add_binary(a: str, b: str) -> str:
     """
