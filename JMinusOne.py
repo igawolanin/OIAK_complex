@@ -282,30 +282,3 @@ class JMinusOne:
                 result = JMinusOne.add_numbers(result, partial)
         
         return result
-
-# przykład użycia
-if __name__ == "__main__":
-    # tworzenie liczb zespolonych
-    z1 = JMinusOne(value="1110000000001110000010000")  # 2012
-    z2 = JMinusOne(value="111000")  # 2-2j
-
-    print(f"{'zmienna':<10}| {'wartość':<20}| {'w bazie (j-1)':<30}")
-    print('-'*65)
-    print(f"{'z1':<10}| {str(z1):<20}| {z1.binary:<30}")
-    print(f"{'z2':<10}| {str(z2):<20}| {z2.binary:<30}")
-
-    # dodawanie
-    z3 = z1 + z2
-    print(f"{'z3=z1+z2':<10}| {str(z3):<20}| {z3.binary:<30}")
-
-    # odejmowanie
-    z4 = z1 - z2
-    print(f"{'z4=z1-z2':<10}| {str(z4):<20}| {z4.binary:<30}")
-
-    # mnożenie
-    z5 = z1 * z2
-    print(f"{'z5=z1*z2':<10}| {str(z5):<20}| {z5.binary:<30}")
-
-    # tworzenie liczby z części rzeczywistej i urojonej
-    z6 = JMinusOne(real=123, imag=-321)
-    print(f"{'z6':<10}| {str(z6):<20}| {z6.binary:<30}")
